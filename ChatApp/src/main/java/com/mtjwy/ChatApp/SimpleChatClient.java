@@ -3,6 +3,7 @@ package com.mtjwy.ChatApp;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -15,6 +16,9 @@ public class SimpleChatClient {
 	JTextField outgoing;
 	PrintWriter writer;
 	Socket sock;
+	
+	String serverIP = "localhost";
+	int serverPort = 4040;
 	
 	public static void main(String[] args) {
         new SimpleChatClient().go();
@@ -42,6 +46,13 @@ public class SimpleChatClient {
 	private void setUpNextWroking() {
 		//make a Socket, then make a PrintWriter
 		//assign the PrintWriter to writer instance variable
+		try {
+			sock = new Socket(serverIP, serverPort);
+			writer = new PrintWriter(sock.getOutputStream());
+			System.out.println("networking established");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public class SendButtonListener implements ActionListener {
@@ -49,7 +60,14 @@ public class SimpleChatClient {
 		public void actionPerformed(ActionEvent e) {
 			// get the text from the text field and
 			//send it to the server using the writer
-			
+			try {
+				writer.println(outgoing.getText());
+				writer.flush();
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			outgoing.setText("");
+			outgoing.requestFocus();
 		}
 		
 	}
