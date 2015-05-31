@@ -27,9 +27,7 @@ public class SimpleChatClient {
 	String serverIP = "localhost";
 	int serverPort = 4040;
 	
-	public static void main(String[] args) {
-        new SimpleChatClient().go();
-    }
+	
 	
 	public void go() {
 		//make gui and register a listener with the send button
@@ -112,6 +110,10 @@ public class SimpleChatClient {
         }
     }
 	
+	
+	public static void main(String[] args) {
+        new SimpleChatClient().go();
+    }
 	
 }
 
